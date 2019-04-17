@@ -1,13 +1,14 @@
 
 import csv
 import copy
-from datetime import datetime
 import sys
 import glob
+import calendar
+import time
+
 
 # current date and time
-now = datetime.now()
-timestamp = datetime.timestamp(now)
+# timestamp = calendar.timegm(time.gmtime())
 template = []
 def get_template_line():
      # Read data that needs processing from CSV files
@@ -43,6 +44,7 @@ for file in fileCSVs:
                 if temp['Keyword']!='' : 
                     keys=temp['Keyword'].split('/')
                     if (keys[0].lower().strip() in row['Name'].lower().strip() ) and temp['Keyword']!='' : 
+                        timestamp = calendar.timegm(time.gmtime())
                         if row['Type']=='variable' : 
                             variable_data['Description']=row['Name']+ temp['Description'][8:]
                             variable_data['Visibility in catalog']='visible'
