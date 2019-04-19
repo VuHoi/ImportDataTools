@@ -39,51 +39,28 @@ for file in fileCSVs:
     with open('list_csv_out\\'+file[12:], 'w', newline='\n') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for row in datas :
-            for temp in template :
-                if temp['Keyword']!='' : 
-                    keys=temp['Keyword'].split('/')
-                    if (keys[0].lower().strip() in row['Name'].lower().strip() ) and temp['Keyword']!='' : 
-                        timestamp = calendar.timegm(time.gmtime())
-                        if row['Type']=='variable' : 
-                            variable_data['Description']=row['Name']+ temp['Description'][8:]
-                            variable_data['Visibility in catalog']='visible'
-                            variable_data['Type']='variable'
-                            variable_data['Short description']=row['Name']
-                            variable_data['Allow customer reviews?']=1
-                            variable_data['Tax class']=' '
-                            variable_data['Images']=row['Images']
-                            variable_data['Categories']=row['Categories']
-                            variable_data['SKU']=timestamp
-                            variable_data['Parent']=''
-                            variable_data['Name']=row['Name']
-                            variable_data['Keyword']=temp['Keyword']
-                        else :
-                            variable_data['Allow customer reviews?']=0
-                            variable_data['Type']='variation'
-                            variable_data['Tax class']='parent'
-                            variable_data['Short description']=''
-                            variable_data['Description']=''
-                            variable_data['Images']=''
-                            variable_data['Categories']=''
-                            variable_data['SKU']=''
-                            variable_data['Parent']=timestamp
-                            variable_data['Name']=''
-                            variable_data['Keyword']=''
-                        variable_data['Sale price']=row['Sale price']
-                        variable_data['Regular price']=row['Regular price']
-                        variable_data['Categories']=row['Categories']
-                        variable_data['Attribute 1 name']=row['Attribute 1 name']
-                        variable_data['Attribute 1 global']=row['Attribute 1 global']
-                        variable_data['Attribute 2 name']=row['Attribute 2 name']
-                        variable_data['Attribute 2 value(s)']=row['Attribute 2 value(s)']
-                        variable_data['Attribute 2 visible']=row['Attribute 2 visible']
-                        variable_data['Attribute 2 global']=row['Attribute 2 global']
-                        variable_data['Attribute 1 value(s)']=row['Attribute 1 value(s)']
-                        variable_data['In stock?']=1
-                        variable_data['Tax status']='taxable'
-                        writer.writerow(variable_data)
-                        break
+        for temp in template :
+            name=''
+            timestamp = calendar.timegm(time.gmtime())
+            if temp['Type']=='variable' :
+                for row in datas :
+                    if row['Type']=='variable' : 
+                        keys=temp['Keyword'].split('/')
+                        if  keys[0].lower().strip() in row['Name'].lower().strip() or (len(keys)>0 and keys[len(keys)-1].lower().strip() in row['Name'].lower().strip() ) : 
+                            temp['Description']=row['Name']+ temp['Description'][8:]
+                            temp['Short description']=row['Name']
+                            temp['Images']=row['Images']
+                            temp['Name']=row['Name']
+                            temp['SKU']=timestamp
+                            name=row['Name']
+                            break
+                else :
+                    temp['Parent']=timestamp 
+            temp['Name']=name 
+            writer.writerow(temp)
+            
+                            
+                
 
         
 
