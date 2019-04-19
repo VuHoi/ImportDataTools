@@ -50,7 +50,7 @@ for file in fileCSVs:
                         keys=temp['Keyword'].split('/')
                         if  keys[0].lower().strip() in row['Name'].lower().strip() or (len(keys)>0 and keys[len(keys)-1].lower().strip() in row['Name'].lower().strip() ) : 
                             isVariation=1
-                            temp['Description']=row['Name']+ temp['Description'][8:]
+                            temp['Description']=row['Name']+ row['Description'][8:]
                             temp['Short description']=row['Name']
                             temp['Images']=row['Images']
                             temp['Name']=row['Name']
