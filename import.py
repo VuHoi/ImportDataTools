@@ -54,7 +54,7 @@ for file in fileCSVs:
                             temp['SKU']=timestamp
                             name=row['Name']
                             break
-                else :
+            else :
                     temp['Parent']=timestamp 
             temp['Name']=name 
             writer.writerow(temp)
